@@ -1,8 +1,8 @@
-var request = require('superagent');
-var expect = require('expect.js');
+var request = require('superagent'),
+    expect = require('expect.js');
 
 // Test structure
-describe('Suite one', function(){
+describe('Hello World', function(){
     it("should get a response that contains World",function(done){
         request.get('localhost:8080').end(function(err, res){
             if(err) console.error(err);

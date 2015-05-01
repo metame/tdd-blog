@@ -2,16 +2,18 @@
   "name": "tdd-test",
   "version": "0.1.0",
   "description": "learning test driven development with mocha.js",
-  "main": "index.js",
-  "repository" : {
+  "main": "app.js",
+  "repository": {
     "type": "git",
     "url": "https://github.com/metame/tdd-blog.git"
   },
   "scripts": {
     "test": "mocha test"
   },
-  "devDepencies": {
-    "mocha": "*"
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*",
+    "superagent": "*"
   },
   "keywords": [
     "mocha",
@@ -19,5 +21,10 @@
     "blog"
   ],
   "author": "Michael J Erwin",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "jade": "^1.9.2"
+  }
 }
