@@ -1,0 +1,23 @@
+{
+  "name": "tdd-test",
+  "version": "0.1.0",
+  "description": "learning test driven development with mocha.js",
+  "main": "index.js",
+  "repository" : {
+    "type": "git",
+    "url": "https://github.com/metame/tdd-blog.git"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "devDepencies": {
+    "mocha": "*"
+  },
+  "keywords": [
+    "mocha",
+    "tdd",
+    "blog"
+  ],
+  "author": "Michael J Erwin",
+  "license": "MIT"
+}
