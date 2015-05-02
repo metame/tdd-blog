@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1= title
+    form(action="/register" method="POST")
+        input(type="text" placeholder="username" name="username")
+        input(type="password" placeholder="password" name="password")
+        input(type="email" placeholder="email" name="email")
+        button(type="submit") Register
+    a(href="/login") Already registered? Click here to login!

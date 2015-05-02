@@ -1,6 +1,8 @@
 var express = require('express'),
     router = express.Router();
 
+var users = [];
+
 router.get('/', function(req, res){
     res.status(200).send('Hello World\n');
 });
@@ -24,6 +26,21 @@ router.post('/login', function(req, res){
         console.log("Wrong username");
         res.send('Wrong username');
     }
+});
+
+router.get('/register', function(req, res){
+    res.render('register', {title: "Register"});
+});
+
+router.post('/register', function(req, res){
+    var newUser = req.body;
+    
+    
+        users.push(newUser);
+        console.log(users);
+        res.send('Registration successful!');
+    
+    
 });
 
 module.exports = router;
