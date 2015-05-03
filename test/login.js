@@ -15,6 +15,15 @@ describe('Login page', function(){
         });
     });
     
+    before(function(){
+        request
+        .post('localhost:8080/register')
+        .type('form')
+        .send({'username': 'test', 'password': 'test', 'email': 'test@test.com'})
+        .end(function(err, res){
+            if(err) console.error(err);
+        });
+    });
     it('should accept valid login', function(done){
         request
         .post('localhost:8080/login')
@@ -34,7 +43,7 @@ describe('Login page', function(){
         .send({username: 'fail', password: 'test'})
         .end(function(err, res){
             if(err) console.error(err);
-            expect(res.text).to.contain('Wrong username');
+            expect(res.text).to.contain('Username does not exist');
             done();
         });
     });
