@@ -1,7 +1,8 @@
 var express = require('express'),
     router = express.Router();
 
-var users = [];
+var users = [],
+    posts = [];
 
 router.get('/', function(req, res){
     res.status(200).send('Hello World\n');
@@ -65,5 +66,15 @@ router.post('/register', function(req, res){
     
 });
 
+router.get('/newPost', function(req, res){
+    res.render('newPost', {title: "New Post"});
+});
+
+router.post('/newPost', function(req, res){
+    var newPost = req.body;
+    posts.push(newPost);
+    res.send('New post added!\n <h1>' + newPost.title + '</h1>\n<p>' + newPost.body + '</p>');
+    
+});
 
 module.exports = router;
