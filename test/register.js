@@ -1,5 +1,7 @@
 var request = require('superagent'),
-    expect = require('expect.js');
+    expect = require('expect.js'),
+    db = require('../lib/monk'),
+    users = db.get('users');
     
 describe('Registration', function(){
     it('should exist and show register form', function(done){
@@ -27,15 +29,28 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain("Registration successful");
+            expect(res.text).to.contain('You registered successfully with username ' + newUser.username + ' and email ' + newUser.email);
             
+            done();
+        });
+    });
+
+    it('should show new user in database', function(done){
+        users.findOne({'username':'test3'}).on('complete', function(err, doc){
+            if(err) throw err;
+
+            expect(doc).to.exist;
+            expect(doc.username).to.equal(newUser.username);
+            expect(doc.password).to.equal(newUser.password);
+            expect(doc.email).to.equal(newUser.email);
+
             done();
         });
     });
     
     it('should reject duplicate username on registration', function(done){
         var dupUsername = {'username': 'test3', 'password': 'test3', 'email': 'test3@test.com'};
-        dupUsername["email"] = "notdupe@test.com";
+        dupUsername['email'] = 'notdupe@test.com';
         request
         .post('localhost:8080/register')
         .type('form')
@@ -45,7 +60,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain("Duplicate username");
+            expect(res.text).to.contain(dupUsername.username + ' already registered');
             
             done();
         });
@@ -53,7 +68,7 @@ describe('Registration', function(){
     
     it('should reject duplicate email on registration', function(done){
         var dupEmail = {'username': 'test3', 'password': 'test3', 'email': 'test3@test.com'};
-        dupEmail["username"] = "notdupe";
+        dupEmail['username'] = 'notdupe';
         request
         .post('localhost:8080/register')
         .type('form')
@@ -63,7 +78,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain("Duplicate email");
+            expect(res.text).to.contain(dupEmail.email + ' already registered');
             
             done();
         });
@@ -79,7 +94,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain("Login successful");
+            expect(res.text).to.contain('Login successful');
             
             done();
         });

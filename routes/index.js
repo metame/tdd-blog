@@ -1,11 +1,52 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    db = require('../lib/monk'),
+    users = db.get('users');
 
-var users = [],
-    posts = [];
+var posts = [];
 
 router.get('/', function(req, res){
     res.status(200).send('Hello World\n');
+});
+
+router.get('/register', function(req, res){
+    res.render('register', {title: "Register"});
+});
+
+function validateRegistration(req, res, next){
+    // Check if username or email is already registered
+    users.findOne({'username':req.body.username})
+    .success(function(doc){
+        if(doc){
+            console.log(doc.username + " already registered!");
+            res.send(doc.username + " already registered!");
+        } else {
+            users.findOne({'email':req.body.email})
+            .success(function(doc){
+                if(doc){
+                    console.log(doc.email + " already registered!");
+                    res.send(doc.email + " already registered!");
+                } else {
+                    next(); // user validated and can be inserted
+                }
+            }); 
+        }
+    });
+}
+
+router.post('/register', validateRegistration, function(req, res){
+    var newUser = req.body;
+
+    // Insert user in db & send successful response
+    users.insert({"username":newUser.username,"password":newUser.password,"email":newUser.email})
+    .on('error', function(err){
+        console.log(err);
+    })
+    .on('success',function(doc){
+        console.log(doc.username + " registered!");
+        res.send('You registered successfully with username ' + doc.username + ' and email ' + doc.email);
+    });
+         
 });
 
 router.get('/login', function(req, res){
@@ -37,34 +78,7 @@ router.post('/login', function(req, res){
     }
 });
 
-router.get('/register', function(req, res){
-    res.render('register', {title: "Register"});
-});
 
-router.post('/register', function(req, res){
-    var newUser = req.body,
-        userExists = false,
-        errMsg;
-    
-    for(var i=0; i<users.length; i++){
-        if(newUser.username == users[i].username){
-            userExists = true;
-            errMsg = "Username already registered: Duplicate username!";
-        } else if(newUser.email == users[i].email){
-            userExists = true;
-            errMsg = "Email already registered: Duplicate email!";
-        }
-    }
-    
-    if(userExists){
-        res.send(errMsg);
-    } else{
-        users.push(newUser);
-        console.log(users);
-        res.send('Registration successful!');
-    }
-    
-});
 
 router.get('/newPost', function(req, res){
     res.render('newPost', {title: "New Post"});
