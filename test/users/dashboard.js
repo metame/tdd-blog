@@ -3,27 +3,33 @@ var request = require('superagent'),
     users = require('../../lib/monk').get('users');
 
 // Test failing showing 500 status due to req.session.user not being set
-describe.skip('User Dashboard', function(){
+describe('User Dashboard', function(){
     // Define user and agent for test
     var u = 'dashtest',
-        user = {'username': u, 'password': u, 'email': u + "@test.com"},
-        agentD = request.agent();
+        user = {'username': u, 'password': u, 'email': u + "@test.com"};
         
-    // Register user before running test
-    before(function(){
-        users.insert(user);
+        
+    // Insert user in db before running test
+    before(function(done){
+        users.insert(user).success(function(doc){
+            done();
+        });
     });
+
+    // create test agent
+    var agent1 = request.agent();
     
-    it('should allow user to login', function(done){
-        agentD
+    // login user with agent before test
+    before(function(done){
+        agent1
         .post('localhost:8080/users/login')
         .type('form')
         .send(user)
         .end(function(err, res){
             expect(err).to.not.exist;
             
+            expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.headers['content-type']).to.contain('text/html');
             expect(res.text).to.contain('Welcome ' + u);
 
             done();
@@ -31,16 +37,16 @@ describe.skip('User Dashboard', function(){
     });
     
     it('should exist', function(done){
-        agentD
+        agent1
         .get('localhost:8080/users/dashboard')
         .end(function(err, res){
             expect(err).to.not.exist;
             
-            // expect(res).to.exist;
+            expect(res).to.exist;
             expect(res.status).to.equal(200);
             expect(res.text).to.contain('Hi ' + u + ', welcome to your dashboard');
             
-            done;
+            done();
         });
     });
     

@@ -2,19 +2,23 @@ var request = require('superagent'),
     expect = require('expect.js'),
     users = require('../../lib/monk').get('users');
     
-describe.skip('User Sessions', function(){
+describe('User Sessions', function(){
     // Define test user
     var u = 'sesstest',
         user = {'username': u, 'password': u, 'email': u + "@test.com"};
         
     // Insert test user in db before running tests
-    before(function(){
-        users.insert(user);
+    before(function(done){
+        users.insert(user).success(function(doc){
+            done();
+        });
     });
     
+    // create test agent
     var agent1 = request.agent();
     
-    it('should accept valid login and not set cookie', function(done){
+    // login user with agent before test
+    before(function(done){
         agent1
         .post('localhost:8080/users/login')
         .type('form')
@@ -45,7 +49,7 @@ describe.skip('User Sessions', function(){
     });
     
     after(function(){
-        // users.remove(user);
+        users.remove(user);
     });
     
 });
