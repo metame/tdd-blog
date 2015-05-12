@@ -31,7 +31,7 @@ describe('Login page', function(){
         .send({username: 'test',password: 'test'})
         .end(function(err, res){
             if(err) console.error(err);
-            expect(res.text).to.contain('Login successful');
+            expect(res.text).to.contain('Welcome test');
             done();
         });
     });
@@ -55,7 +55,7 @@ describe('Login page', function(){
         .send({username: 'test', password: 'fail'})
         .end(function(err, res){
             if(err) console.error(err);
-            expect(res.text).to.contain('Wrong password');
+            expect(res.text).to.contain('Password incorrect');
             done();
         });
     });
