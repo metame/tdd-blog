@@ -2,8 +2,9 @@ var express = require('express'),
     router = express.Router(),
     db = require('../lib/monk'),
     users = db.get('users'),
-    validateRegistration = require('../middleware/validateRegistration.js'),
-    validateLogin = require('../middleware/validateLogin.js');
+    validateRegistration = require('../middleware/validateRegistration'),
+    validateLogin = require('../middleware/validateLogin'),
+    loginSession = require('../middleware/loginSession');
 
 var posts = [];
 
@@ -34,8 +35,8 @@ router.get('/login', function(req, res){
     res.render('login', {title: "Login"});
 });
 
-router.post('/login', validateLogin, function(req, res){
-    res.send('Welcome ' + req.body.username + '!');
+router.post('/login', validateLogin, loginSession, function(req, res){
+    res.send('Welcome ' + req.session.user + '!');
 });
 
 

@@ -94,7 +94,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Login successful');
+            expect(res.text).to.contain('Welcome ' + newUser.username);
             
             done();
         });
