@@ -8,10 +8,12 @@ var express = require('express'),
 
 var posts = [];
 
+// User home page
 router.get('/', function(req, res){
     res.status(200).send('Hello World\n');
 });
 
+// Register Routes
 router.get('/register', function(req, res){
     res.render('register', {title: "Register"});
 });
@@ -31,6 +33,7 @@ router.post('/register', validateRegistration, function(req, res){
          
 });
 
+// Login routes
 router.get('/login', function(req, res){
     res.render('login', {title: "Login"});
 });
@@ -39,7 +42,11 @@ router.post('/login', validateLogin, loginSession, function(req, res){
     res.send('Welcome ' + req.session.user + '!');
 });
 
-
+// User Dashboard routes
+router.get('/dashboard', function(req, res){
+    var user = req.session.user;
+    res.render('newPost', {title: user + "'s Dashboard", user: user});
+})
 
 router.get('/newPost', function(req, res){
     res.render('newPost', {title: "New Post"});

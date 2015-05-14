@@ -6,8 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     routes = require('./routes/index'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    db = require('./lib/monk');
+    MongoStore = require('connect-mongo')(session);
     
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
