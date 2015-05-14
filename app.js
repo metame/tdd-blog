@@ -6,24 +6,26 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     routes = require('./routes/index'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session);
+    MongoStore = require('connect-mongo')(session),
+    userSession = require('./middleware/userSession');
     
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // middleware
 app.use(bodyParser.urlencoded({extended: false}));
 
+// session setup
 app.use(session({
     secret: 'keyboard cat',
     saveUninitialized: false,
     resave: false,
     store: new MongoStore({url: 'mongodb://localhost:27017/blog'})
 }));
-
-// serve static files
-app.use(express.static(path.join(__dirname, 'public')));
 
 // load routes
 app.use('/', routes);

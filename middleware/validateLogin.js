@@ -3,14 +3,15 @@ var users = require('../lib/monk').get('users');
 module.exports = function validateLogin(req, res, next){
     // Validate login
     users.findOne({'username':req.body.username})
-    .success(function(doc){
-        if(!doc){
+    .success(function(user){
+        if(!user){
             res.send('Username does not exist!');
         } else {
-            if(doc.password !== req.body.password){
+            if(user.password !== req.body.password){
                 res.send('Password incorrect!');
             } else {
-                console.log(req.body.username + " successfully validated!");
+                req.session.user = user;
+                console.log(req.session.user.username + " successfully validated!");
                 next();
             }
         }

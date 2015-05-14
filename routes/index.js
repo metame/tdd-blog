@@ -4,7 +4,9 @@ var express = require('express'),
     users = db.get('users'),
     validateRegistration = require('../middleware/validateRegistration'),
     validateLogin = require('../middleware/validateLogin'),
-    loginSession = require('../middleware/loginSession');
+    userSession = require('../middleware/userSession');
+
+router.use(userSession);
 
 var posts = [];
 
@@ -38,15 +40,15 @@ router.get('/login', function(req, res){
     res.render('login', {title: "Login"});
 });
 
-router.post('/login', validateLogin, loginSession, function(req, res){
-    res.send('Welcome ' + req.session.user + '!');
+router.post('/login', validateLogin, function(req, res){
+    res.send('Welcome ' + req.session.user.username + '!');
 });
 
 // User Dashboard routes
 router.get('/dashboard', function(req, res){
     var user = req.session.user;
-    res.render('newPost', {title: user + "'s Dashboard", user: user});
-})
+    res.render('dashboard', {title: user.username + "'s Dashboard"});
+});
 
 router.get('/newPost', function(req, res){
     res.render('newPost', {title: "New Post"});
