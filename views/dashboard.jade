@@ -1,5 +1,6 @@
 extends layout
 
 block content
-    h1 Welcome to your Dashboard, #{user.username}!
-    
+    h1 Hi #{user.username}, welcome to your dashboard!
+    a(href="/newPost") Write New Blog Post
+    a(href="/logout") Logout

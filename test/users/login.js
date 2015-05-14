@@ -4,7 +4,7 @@ var request = require('superagent'),
 // Test structure
 describe('Login page', function(){
     it('should exist and show login form',function(done){
-        request.get('localhost:8080/login').end(function(err, res){
+        request.get('localhost:8080/users/login').end(function(err, res){
             if(err) console.error(err);
             
             expect(res).to.exist;
@@ -17,7 +17,7 @@ describe('Login page', function(){
     
     before(function(){
         request
-        .post('localhost:8080/register')
+        .post('localhost:8080/users/register')
         .type('form')
         .send({'username': 'test', 'password': 'test', 'email': 'test@test.com'})
         .end(function(err, res){
@@ -26,7 +26,7 @@ describe('Login page', function(){
     });
     it('should accept valid login', function(done){
         request
-        .post('localhost:8080/login')
+        .post('localhost:8080/users/login')
         .type('form')
         .send({username: 'test',password: 'test'})
         .end(function(err, res){
@@ -38,7 +38,7 @@ describe('Login page', function(){
     
     it('should reject invalid username', function(done){
         request
-        .post('localhost:8080/login')
+        .post('localhost:8080/users/login')
         .type('form')
         .send({username: 'fail', password: 'test'})
         .end(function(err, res){
@@ -50,7 +50,7 @@ describe('Login page', function(){
     
     it('should reject invalid password', function(done){
         request
-        .post('localhost:8080/login')
+        .post('localhost:8080/users/login')
         .type('form')
         .send({username: 'test', password: 'fail'})
         .end(function(err, res){

@@ -5,7 +5,7 @@ describe('New Blog Post', function(){
     describe('New post page', function(){
         it('should exist and show form', function(done){
             
-            request.get('localhost:8080/newPost').end(function(err, res){
+            request.get('localhost:8080/users/newPost').end(function(err, res){
                 if(err) throw err;
                 
                 expect(res).to.exist;
@@ -22,7 +22,7 @@ describe('New Blog Post', function(){
         var newPost = {'title': 'Test blog post', 'body': 'Yes! This post worked!'};
         it('should accept valid entry', function(done){
             request
-            .post('localhost:8080/newPost')
+            .post('localhost:8080/users/newPost')
             .type('form')
             .send(newPost)
             .end(function(err, res){

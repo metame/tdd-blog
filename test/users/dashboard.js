@@ -6,13 +6,13 @@
 // describe('User Dashboard', function(){
     // before(function(){
     //     request
-    //     .post('localhost:8080/register')
+    //     .post('localhost:8080/users/register')
     //     .type('form')
     //     .send({'username': 'dashtest', 'password': 'dashtest', 'email': 'dashtest@test.com'})
     //     .end(function(err, res){
     //         if(err) throw err;
             
-    //         request.post('localhost:8080/login')
+    //         request.post('localhost:8080/users/login')
     //         .type('form')
     //         .send({'username': 'dashtest', 'password': 'dashtest'})
     //         .end(function(err, res){
@@ -21,7 +21,7 @@
     //     });
     // });
 //     it('should exist', function(done){
-//         request.get('localhost:8080/dashboard').end(function(err, res){
+//         request.get('localhost:8080/users/dashboard').end(function(err, res){
 //             if(err) throw err;
             
 //             expect(res).to.exist;

@@ -4,7 +4,7 @@ var request = require('superagent'),
 // Test structure
 describe('Hello World', function(){
     it("should get a response that contains World",function(done){
-        request.get('localhost:8080').end(function(err, res){
+        request.get('localhost:8080/users').end(function(err, res){
             if(err) console.error(err);
             
             expect(res).to.exist;

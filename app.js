@@ -5,9 +5,9 @@ var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
     routes = require('./routes/index'),
+    users = require('./routes/users'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    userSession = require('./middleware/userSession');
+    MongoStore = require('connect-mongo')(session);
     
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +29,7 @@ app.use(session({
 
 // load routes
 app.use('/', routes);
+app.use('/users', users);
 
 // start up http server
 server.listen(port, function(){

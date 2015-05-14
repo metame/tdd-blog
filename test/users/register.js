@@ -1,11 +1,11 @@
 var request = require('superagent'),
     expect = require('expect.js'),
-    db = require('../lib/monk'),
+    db = require('../../lib/monk'),
     users = db.get('users');
     
 describe('Registration', function(){
     it('should exist and show register form', function(done){
-        request.get('localhost:8080/register').end(function(err, res){
+        request.get('localhost:8080/users/register').end(function(err, res){
             if(err) throw err;
             
             expect(res).to.exist;
@@ -21,7 +21,7 @@ describe('Registration', function(){
     
     it('should accept valid registration information', function(done){
         request
-        .post('localhost:8080/register')
+        .post('localhost:8080/users/register')
         .type('form')
         .send(newUser)
         .end(function(err, res){
@@ -52,7 +52,7 @@ describe('Registration', function(){
         var dupUsername = {'username': 'test3', 'password': 'test3', 'email': 'test3@test.com'};
         dupUsername['email'] = 'notdupe@test.com';
         request
-        .post('localhost:8080/register')
+        .post('localhost:8080/users/register')
         .type('form')
         .send(dupUsername)
         .end(function(err, res){
@@ -70,7 +70,7 @@ describe('Registration', function(){
         var dupEmail = {'username': 'test3', 'password': 'test3', 'email': 'test3@test.com'};
         dupEmail['username'] = 'notdupe';
         request
-        .post('localhost:8080/register')
+        .post('localhost:8080/users/register')
         .type('form')
         .send(dupEmail)
         .end(function(err, res){
@@ -86,7 +86,7 @@ describe('Registration', function(){
     
     it('should allow new user to login', function(done){
         request
-        .post('localhost:8080/login')
+        .post('localhost:8080/users/login')
         .type('form')
         .send(newUser)
         .end(function(err, res){
