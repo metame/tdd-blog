@@ -2,8 +2,8 @@ extends layout
 
 block content
     h1= title
-    form(action="/login" method="POST")
+    form(action="/users/login" method="POST")
         input(type="text" placeholder="username" name="username")
         input(type="password" Placeholder="password" name="password")
         button(type="submit") Login
-    a(href="/register") Not registered? Click here!
+    a(href="./register") Not registered? Click here!

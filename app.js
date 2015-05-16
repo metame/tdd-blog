@@ -4,7 +4,7 @@ var express = require('express'),
     port = process.env.PORT || 8080,
     path = require('path'),
     bodyParser = require('body-parser'),
-    routes = require('./routes/index'),
+    // routes = require('./routes/index'),
     users = require('./routes/users'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
@@ -28,7 +28,7 @@ app.use(session({
 }));
 
 // load routes
-app.use('/', routes);
+// app.use('/', routes);
 app.use('/users', users);
 
 // start up http server

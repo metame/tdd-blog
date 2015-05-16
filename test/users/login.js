@@ -1,5 +1,6 @@
 var request = require('superagent'),
-    expect = require('expect.js');
+    expect = require('expect.js'),
+    users = require('../../lib/monk').get('users');
 
 // Test structure
 describe('Login page', function(){
@@ -58,6 +59,10 @@ describe('Login page', function(){
             expect(res.text).to.contain('Password incorrect');
             done();
         });
+    });
+    
+    after(function(){
+        users.remove({'username': 'test'});
     });
 });
 

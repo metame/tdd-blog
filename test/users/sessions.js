@@ -1,50 +1,51 @@
 var request = require('superagent'),
     expect = require('expect.js'),
     users = require('../../lib/monk').get('users');
-
-// Test failing showing 500 status due to req.session.user not being set
-describe.skip('User Dashboard', function(){
-    // Define user and agent for test
-    var u = 'dashtest',
-        user = {'username': u, 'password': u, 'email': u + "@test.com"},
-        agentD = request.agent();
+    
+describe.skip('User Sessions', function(){
+    // Define test user
+    var u = 'sesstest',
+        user = {'username': u, 'password': u, 'email': u + "@test.com"};
         
-    // Register user before running test
+    // Insert test user in db before running tests
     before(function(){
         users.insert(user);
     });
     
-    it('should allow user to login', function(done){
-        agentD
+    var agent1 = request.agent();
+    
+    it('should accept valid login and not set cookie', function(done){
+        agent1
         .post('localhost:8080/users/login')
         .type('form')
         .send(user)
         .end(function(err, res){
             expect(err).to.not.exist;
             
+            expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.headers['content-type']).to.contain('text/html');
             expect(res.text).to.contain('Welcome ' + u);
 
             done();
         });
     });
     
-    it('should exist', function(done){
-        agentD
+    it('should recognize session on /dashboard route', function(done){
+        agent1
         .get('localhost:8080/users/dashboard')
         .end(function(err, res){
             expect(err).to.not.exist;
             
-            // expect(res).to.exist;
+            expect(res).to.exist;
             expect(res.status).to.equal(200);
             expect(res.text).to.contain('Hi ' + u + ', welcome to your dashboard');
-            
-            done;
+
+            done();
         });
     });
     
     after(function(){
-        users.remove(user);
+        // users.remove(user);
     });
+    
 });

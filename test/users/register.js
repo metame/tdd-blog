@@ -1,7 +1,6 @@
 var request = require('superagent'),
     expect = require('expect.js'),
-    db = require('../../lib/monk'),
-    users = db.get('users');
+    users = require('../../lib/monk').get('users');
     
 describe('Registration', function(){
     it('should exist and show register form', function(done){
@@ -98,5 +97,9 @@ describe('Registration', function(){
             
             done();
         });
+    });
+    
+    after(function(){
+        users.remove(newUser);
     });
 });
