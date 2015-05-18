@@ -2,13 +2,13 @@ var express = require('express'),
     router = express.Router(),
     db = require('../lib/monk'),
     users = db.get('users'),
+    posts = db.get('posts'),
     validateRegistration = require('../middleware/validateRegistration'),
     validateLogin = require('../middleware/validateLogin'),
-    userSession = require('../middleware/userSession');
+    userSession = require('../middleware/userSession'),
+    genPermalink = require('../middleware/genPermalink');
 
 router.use(userSession);
-
-var posts = [];
 
 // User home page
 router.get('/', function(req, res){
@@ -52,14 +52,25 @@ router.get('/dashboard', function(req, res){
 
 
 // Create new blog post routes
-router.get('/newPost', function(req, res){
-    res.render('newPost', {title: "New Post"});
+router.get('/newpost', function(req, res){
+    var user = req.session.user;
+
+    if(user){
+        res.render('newPost', {title: "New Post", user: user});
+    } else {
+        res.redirect('/login');
+    }
 });
 
-router.post('/newPost', function(req, res){
+router.post('/newpost', genPermalink, function(req, res){
     var newPost = req.body;
-    posts.push(newPost);
-    res.send('New post added!\n <h1>' + newPost.title + '</h1>\n<p>' + newPost.body + '</p>');
+    posts.insert(newPost)
+    .error(function(err){
+        if(err) throw err;
+    })
+    .success(function(post){
+        res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
+    });
 });
 
 // Logout route

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    h1= title
+    h1 #{user.username}'s #{title}
     form(action='/newPost' method='POST')
         input(type="text" placeholder="Post title" name="title")
         input(type="text" placeholder="Post body" name="body")
