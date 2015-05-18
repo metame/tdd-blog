@@ -4,3 +4,20 @@ block content
     h1 Hi #{user.username}, welcome to your dashboard!
     a(href="./newPost") Write New Blog Post
     a(href="./logout") Logout
+    h2 Your Posts
+    case posts[0]
+        when undefined
+            p No posts yet!
+        default
+            ul
+                each post in posts
+                    li= post.title
+    h2 Your Drafts
+    //- when drafts is defined add [0]
+    case drafts
+        when undefined
+            p No drafts saved!
+        default
+            ul
+                each draft in drafts
+                    li= draft.title

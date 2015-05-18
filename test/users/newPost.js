@@ -2,7 +2,8 @@ var request = require('superagent'),
     expect = require('expect.js'),
     db = require('../../lib/monk'),
     users = db.get('users'),
-    posts = db.get('posts');
+    posts = db.get('posts'),
+    genPermalink = require('../../middleware/genPermalink');
 
 describe('new blog post', function(){
     var u = 'newpostuser',

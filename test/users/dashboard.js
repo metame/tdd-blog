@@ -1,16 +1,25 @@
 var request = require('superagent'),
     expect = require('expect.js'),
-    users = require('../../lib/monk').get('users');
+    db = require('../../lib/monk'),
+    users = db.get('users'),
+    posts = db.get('posts');
 
 describe('User Dashboard', function(){
     // Define user and agent for test
     var u = 'dashtest',
         user = {'username': u, 'password': u, 'email': u + "@test.com"};
         
-        
+    // Make sure db is clean to avoid errors
+    before(function(){
+        users.remove(user);
+    });
+
     // Insert user in db before running test
+    // it('should register user', function(done){
     before(function(done){
-        users.insert(user).success(function(doc){
+        users.insert(user)
+        .success(function(doc){
+            expect(doc).to.exist;
             done();
         });
     });
@@ -19,7 +28,8 @@ describe('User Dashboard', function(){
     var agent1 = request.agent();
     
     // login user with agent before test
-    before(function(done){
+    it('should login user', function(done){
+    // before(function(done){
         agent1
         .post('localhost:8080/users/login')
         .type('form')
@@ -35,7 +45,7 @@ describe('User Dashboard', function(){
         });
     });
     
-    it('should exist', function(done){
+    it('should exist and show content', function(done){
         agent1
         .get('localhost:8080/users/dashboard')
         .end(function(err, res){
@@ -44,12 +54,104 @@ describe('User Dashboard', function(){
             expect(res).to.exist;
             expect(res.status).to.equal(200);
             expect(res.text).to.contain('Hi ' + u + ', welcome to your dashboard');
+            expect(res.text).to.contain('Your Posts');
+            expect(res.text).to.contain('Your Drafts');
+
             
             done();
         });
     });
+
+    describe('Your Posts', function(){
+        // Since no posts have been published from this author...
+        it('should show no posts from this author', function(done){
+            agent1
+            .get('localhost:8080/users/dashboard')
+            .end(function(err, res){
+                expect(err).to.not.exist;
+
+                expect(res.text).to.contain('No posts yet!');
+
+                done();
+            });
+        });
+
+        
+
+        
+
+        // After new post has been inserted...
+        it('should show a post from this author', function(done){
+            // Define new post
+            var p = 'new post';
+            var newpost = {'title':p, 'body': p, 'author': u};
+
+            // Insert new post
+            posts.insert(newpost);
+
+            // Run test
+            agent1
+            .get('localhost:8080/users/dashboard')
+            .end(function(err, res){
+                expect(err).to.not.exist;
+
+                expect(res.text).to.not.contain('No posts yet!');
+                expect(res.text).to.contain(u);
+
+                done();
+            });
+        });
+    });
+
+    describe('Your Drafts', function(){
+        it('should show no drafts from this author', function(done){
+            agent1
+            .get('localhost:8080/users/dashboard')
+            .end(function(err, res){
+                expect(err).to.not.exist;
+
+                expect(res.text).to.contain('No drafts yet!');
+
+                done();
+            });
+        });
+
+        // Define new draft
+        var d = 'new draft';
+        var newdraft = {'title':d, 'body': d};
+
+        // Insert new draft
+        before(function(done){
+            agent1
+            .post('localhost:8080/users/newpost')
+            .type('form')
+            .send(newdraft)
+            .end(function(err, res){
+                expect(err).to.not.exist;
+
+                done();
+            });
+        });
+
+        // After new draft has been inserted...
+        it('should show a draft from this author', function(done){
+            agent1
+            .get('localhost:8080/users/dashboard')
+            .end(function(err, res){
+                expect(err).to.not.exist;
+
+                expect(res.text).to.not.contain('No drafts yet!');
+                expect(res.text).to.contain(d);
+
+                done();
+            });
+        });
+
+    });
+
     
     after(function(){
         users.remove(user);
+        posts.remove({});
     });
 });

@@ -6,7 +6,8 @@ var express = require('express'),
     validateRegistration = require('../middleware/validateRegistration'),
     validateLogin = require('../middleware/validateLogin'),
     userSession = require('../middleware/userSession'),
-    genPermalink = require('../middleware/genPermalink');
+    genPermalink = require('../middleware/genPermalink'),
+    getMyPosts = require('../middleware/getMyPosts');
 
 router.use(userSession);
 
@@ -45,9 +46,14 @@ router.post('/login', validateLogin, function(req, res){
 });
 
 // User Dashboard routes
-router.get('/dashboard', function(req, res){
-    var user = req.session.user;
-    res.render('dashboard', {title: user.username + "'s Dashboard"});
+router.get('/dashboard', getMyPosts, function(req, res){
+    console.log('from routes\n' + req.posts);
+    res.render('dashboard', 
+        {
+            title: req.session.user.username + "'s Dashboard",
+            posts: req.posts
+        }
+    );
 });
 
 
