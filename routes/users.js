@@ -108,7 +108,7 @@ router.get('/edit/:permalink', ensureAuth, function(req, res){
         .success(function(post){
             if(!post){
                 res.status(404).send("No post found!");
-            } else if(post.author !== req.user){
+            } else if(post.author !== req.user.username){
                 res.status(403).send("Only the author can edit a post!");
             } else {
                 res.render('editPost', {title: 'Edit Post', post: post});

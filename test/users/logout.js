@@ -72,7 +72,7 @@ describe('user logout', function(){
         .end(function(err, res){
             expect(err).to.exist;
 
-            expect(res.status).to.equal(500);
+            expect(res.status).to.equal(403);
 
             done();
         });
