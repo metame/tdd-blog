@@ -6,6 +6,7 @@ var express = require('express'),
     validateRegistration = require('../middleware/validateRegistration'),
     validateLogin = require('../middleware/validateLogin'),
     userSession = require('../middleware/userSession'),
+    ensureAuth = require('../middleware/ensureAuth'),
     genPermalink = require('../middleware/genPermalink'),
     getMyPosts = require('../middleware/getMyPosts'),
     getMyDrafts = require('../middleware/getMyDrafts');
@@ -26,20 +27,25 @@ router.post('/register', validateRegistration, function(req, res){
     var newUser = req.body;
 
     // Insert user in db & send successful response
-    users.insert({"username":newUser.username,"password":newUser.password,"email":newUser.email})
-    .on('error', function(err){
-        console.log(err);
-    })
-    .on('success',function(doc){
-        console.log(doc.username + " registered!");
-        res.send('You registered successfully with username ' + doc.username + ' and email ' + doc.email);
-    });
+    users
+        .insert({"username":newUser.username,"password":newUser.password,"email":newUser.email})
+        .error(function(err){
+            if(err) throw err;
+        })
+        .success(function(doc){
+            console.log(doc.username + " registered!");
+            res.send('You registered successfully with username ' + doc.username + ' and email ' + doc.email);
+        });
          
 });
 
 // Login routes
 router.get('/login', function(req, res){
-    res.render('login', {title: "Login"});
+    if(!req.user){
+        res.render('login', {title: "Login"});
+    } else {
+        res.redirect('./dashboard');
+    }
 });
 
 router.post('/login', validateLogin, function(req, res){
@@ -47,8 +53,7 @@ router.post('/login', validateLogin, function(req, res){
 });
 
 // User Dashboard routes
-router.get('/dashboard', getMyPosts, getMyDrafts, function(req, res){
-    console.log('from routes\n' + req.posts);
+router.get('/dashboard', ensureAuth, getMyPosts, getMyDrafts, function(req, res){
     res.render('dashboard', 
         {
             title: req.session.user.username + "'s Dashboard",
@@ -59,7 +64,7 @@ router.get('/dashboard', getMyPosts, getMyDrafts, function(req, res){
 });
 
 // Logout route
-router.get('/logout', function(req, res){
+router.get('/logout', ensureAuth, function(req, res){
     var user = req.session.user;
     req.session.destroy(function(err){
         if(err) throw err;
@@ -71,7 +76,7 @@ router.get('/logout', function(req, res){
 /* These routes will be moved to posts routes */
 
 // Create new blog post routes
-router.get('/newpost', function(req, res){
+router.get('/newpost', ensureAuth, function(req, res){
     var user = req.session.user;
 
     if(user){
@@ -81,7 +86,7 @@ router.get('/newpost', function(req, res){
     }
 });
 
-router.post('/newpost', genPermalink, function(req, res){
+router.post('/newpost', ensureAuth, genPermalink, function(req, res){
     var newPost = req.body;
     
     posts
@@ -94,7 +99,7 @@ router.post('/newpost', genPermalink, function(req, res){
         });
 });
 
-router.get('/edit/:permalink', function(req, res){
+router.get('/edit/:permalink', ensureAuth, function(req, res){
 
     posts.findOne({'permalink': req.params.permalink})
         .error(function(err){
@@ -103,14 +108,16 @@ router.get('/edit/:permalink', function(req, res){
         .success(function(post){
             if(!post){
                 res.status(404).send("No post found!");
-            } else{
+            } else if(post.author !== req.user){
+                res.status(403).send("Only the author can edit a post!");
+            } else {
                 res.render('editPost', {title: 'Edit Post', post: post});
             }
     });
     
 });
 
-router.post('/edit/:permalink', genPermalink, function(req, res){
+router.post('/edit/:permalink', ensureAuth, genPermalink, function(req, res){
     var editedPost = req.body;
     
     posts.findAndModify({'permalink': req.params.permalink}, editedPost)

@@ -71,7 +71,7 @@ describe('edit blog post', function(){
     });
     
     describe('Edit post page', function(){
-        it('should exist and show form', function(done){
+        it('should exist and show form with valid permalink', function(done){
             
             agent
             .get('localhost:8080/users/edit/NewBlogPost')
@@ -85,6 +85,8 @@ describe('edit blog post', function(){
                 done();
             });
         });
+
+        /* TODO: test for invalid permalink */
     });
     
     // define edited post
