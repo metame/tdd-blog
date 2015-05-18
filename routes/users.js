@@ -60,7 +60,16 @@ router.post('/newPost', function(req, res){
     var newPost = req.body;
     posts.push(newPost);
     res.send('New post added!\n <h1>' + newPost.title + '</h1>\n<p>' + newPost.body + '</p>');
-    
+});
+
+// Logout route
+router.get('/logout', function(req, res){
+    var user = req.session.user;
+    req.session.destroy(function(err){
+        if(err) throw err;
+
+        res.send(user.username + ' successfully logged out!');
+    });
 });
 
 module.exports = router;
