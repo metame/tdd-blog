@@ -28,7 +28,6 @@ describe('User Sessions', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u);
 
             done();
         });
@@ -42,7 +41,7 @@ describe('User Sessions', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u + ', welcome to your dashboard');
+            expect(res.text).to.contain(u);
 
             done();
         });

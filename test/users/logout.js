@@ -30,7 +30,7 @@ describe('user logout', function(){
 
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u);
+            expect(res.text).to.contain(u);
 
             done();
         });
@@ -45,7 +45,7 @@ describe('user logout', function(){
 
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u);
+            expect(res.text).to.contain(u);
 
             done();
         });

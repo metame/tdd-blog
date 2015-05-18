@@ -28,7 +28,6 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('You registered successfully with username ' + newUser.username + ' and email ' + newUser.email);
             
             done();
         });
@@ -59,7 +58,6 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain(dupUsername.username + ' already registered');
             
             done();
         });
@@ -94,7 +92,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + newUser.username);
+            expect(res.text).to.contain(newUser.username);
             
             done();
         });

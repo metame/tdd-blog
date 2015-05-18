@@ -39,7 +39,6 @@ describe('User Dashboard', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u);
 
             done();
         });
@@ -53,7 +52,6 @@ describe('User Dashboard', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Hi ' + u + ', welcome to your dashboard');
             expect(res.text).to.contain('Your Posts');
             expect(res.text).to.contain('Your Drafts');
 
@@ -99,8 +97,8 @@ describe('User Dashboard', function(){
             .end(function(err, res){
                 expect(err).to.not.exist;
 
+                expect(res.status).to.equal(200);
                 expect(res.text).to.not.contain('No posts yet!');
-                expect(res.text).to.contain(u);
 
                 done();
             });

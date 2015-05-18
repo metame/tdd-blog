@@ -10,7 +10,6 @@ describe('Login page', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('<h1>Login</h1>');
             expect('form').to.exist;
             done();
         });
@@ -33,7 +32,7 @@ describe('Login page', function(){
         .send({username: 'test',password: 'test'})
         .end(function(err, res){
             if(err) console.error(err);
-            expect(res.text).to.contain('Hi test');
+            expect(res.text).to.contain('test');
             done();
         });
     });

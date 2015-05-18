@@ -45,7 +45,6 @@ describe('new blog post', function(){
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
                 expect('form').to.exist;
-                expect(res.text).to.contain(u + "'s New Post");
                 
                 done();
             });
@@ -68,7 +67,7 @@ describe('new blog post', function(){
                 
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
-                expect(res.text).to.contain(u + ', new post added!');
+                expect(res.text).to.contain(u);
                 expect(res.text).to.contain(newPost.title);
                 expect(res.text).to.contain(newPost.body);
                 
@@ -84,7 +83,6 @@ describe('new blog post', function(){
                 expect(doc.body).to.equal(newPost.body);
                 expect(doc.author).to.equal(u);
                 expect(doc.date).to.be.an('object');
-                // expect(doc.permalink).to.equal(newPostPermalink);
 
                 done();
             });
