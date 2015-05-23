@@ -39,7 +39,7 @@ describe('User Dashboard', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Welcome ' + u);
+            expect(res.text).to.contain('Hi ' + u);
 
             done();
         });
@@ -76,14 +76,13 @@ describe('User Dashboard', function(){
             });
         });
 
-    
+        // Define new post
+        var p = 'new post';
+        var newpost = {'title':p, 'body':p};
         
 
-        // After new post has been inserted...
         it('should show a post from this author', function(done){
-            // Define new post
-            var p = 'new post';
-            var newpost = {'title':p, 'body':p};
+            
 
             // Insert new post
             agent1
@@ -106,6 +105,10 @@ describe('User Dashboard', function(){
                 done();
             });
         });
+        
+        after(function(){
+            posts.remove(newpost);
+        });
     });
 
     describe('Your Drafts', function(){
@@ -121,15 +124,13 @@ describe('User Dashboard', function(){
             });
         });
 
-        
+        // Define new draft
+        var d = 'new draft';
+        var newdraft = {'title':d, 'body':d, draft:'on'};
 
-        // After new draft has been inserted...
+        
         it('should show a draft from this author', function(done){
-            
-            // Define new draft
-            var d = 'new draft';
-            var newdraft = {'title':d, 'body':d, draft:'on'};
-            
+        
             // Insert new draft
             agent1
             .post('localhost:8080/users/newpost')
@@ -151,12 +152,15 @@ describe('User Dashboard', function(){
                 done();
             });
         });
+        
+        after(function(){
+            posts.remove({title: d});
+        });
 
     });
 
     
     after(function(){
         users.remove(user);
-        posts.remove({});
     });
 });

@@ -84,7 +84,8 @@ describe('Registration', function(){
     });
     
     it('should allow new user to login', function(done){
-        request
+        var agent = request.agent();
+        agent
         .post('localhost:8080/users/login')
         .type('form')
         .send(newUser)
@@ -93,7 +94,7 @@ describe('Registration', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Welcome ' + newUser.username);
+            expect(res.text).to.contain('Hi ' + newUser.username);
             
             done();
         });

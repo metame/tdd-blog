@@ -26,13 +26,14 @@ describe('Login page', function(){
         });
     });
     it('should accept valid login', function(done){
-        request
+        var agent = request.agent();
+        agent
         .post('localhost:8080/users/login')
         .type('form')
         .send({username: 'test',password: 'test'})
         .end(function(err, res){
             if(err) console.error(err);
-            expect(res.text).to.contain('Welcome test');
+            expect(res.text).to.contain('Hi test');
             done();
         });
     });

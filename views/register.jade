@@ -1,10 +1,14 @@
 extends layout
 
 block content
-    h1= title
-    form(action="/users/register" method="POST")
-        input(type="text" placeholder="username" name="username")
-        input(type="password" placeholder="password" name="password")
-        input(type="email" placeholder="email" name="email")
-        button(type="submit") Register
-    a(href="./login") Already registered? Click here to login!
+    .col-lg-4
+        h1= title
+        form(action="/users/register" method="POST")
+            .form-group
+                input.form-control(type="text" placeholder="username" name="username")
+            .form-group
+                input.form-control(type="password" placeholder="password" name="password")
+            .form-group
+                input.form-control(type="email" placeholder="email" name="email")
+            button.btn(type="submit") Register
+        a(href="./login") Already registered? Click here to login!

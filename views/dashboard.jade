@@ -2,14 +2,15 @@ extends layout
 
 block content
     h1 Hi #{user.username}, welcome to your dashboard!
-    a(href="./newPost") Write New Blog Post
-    a(href="./logout") Logout
+    ul.list-inline
+        li: a(href="./newPost") Write New Blog Post
+        li: a(href="./logout") Logout
     h2 Your Posts
     case posts[0]
         when undefined
             p No posts yet!
         default
-            ul
+            ul.list-unstyled
                 each post in posts
                     li= post.title
     h2 Your Drafts
@@ -17,6 +18,6 @@ block content
         when undefined
             p No drafts saved!
         default
-            ul
+            ul.list-unstyled
                 each draft in drafts
                     li= draft.title

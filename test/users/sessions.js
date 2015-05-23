@@ -28,7 +28,7 @@ describe('User Sessions', function(){
             
             expect(res).to.exist;
             expect(res.status).to.equal(200);
-            expect(res.text).to.contain('Welcome ' + u);
+            expect(res.text).to.contain('Hi ' + u);
 
             done();
         });

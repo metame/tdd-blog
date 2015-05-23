@@ -1,9 +1,12 @@
 extends layout
 
 block content
-    h1= title
-    form(action="/users/login" method="POST")
-        input(type="text" placeholder="username" name="username")
-        input(type="password" Placeholder="password" name="password")
-        button(type="submit") Login
-    a(href="./register") Not registered? Click here!
+    .col-lg-4
+        h1= title
+        form(action="/users/login" method="POST")
+            .form-group
+                input.form-control(type="text" placeholder="username" required="true" name="username")
+            .form-group
+                input.form-control(type="password" Placeholder="password" required="true" name="password")
+            button.btn(type="submit") Login
+        a(href="./register") Not registered? Click here!
