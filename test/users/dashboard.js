@@ -76,18 +76,23 @@ describe('User Dashboard', function(){
             });
         });
 
-        
-
+    
         
 
         // After new post has been inserted...
         it('should show a post from this author', function(done){
             // Define new post
             var p = 'new post';
-            var newpost = {'title':p, 'body': p, 'author': u};
+            var newpost = {'title':p, 'body':p};
 
             // Insert new post
-            posts.insert(newpost);
+            agent1
+            .post('localhost:8080/users/newpost')
+            .type('form')
+            .send(newpost)
+            .end(function(err, res){
+                expect(err).to.not.exist;
+            });
 
             // Run test
             agent1
@@ -110,37 +115,37 @@ describe('User Dashboard', function(){
             .end(function(err, res){
                 expect(err).to.not.exist;
 
-                expect(res.text).to.contain('No drafts yet!');
+                expect(res.text).to.contain('No drafts saved!');
 
                 done();
             });
         });
 
-        // Define new draft
-        var d = 'new draft';
-        var newdraft = {'title':d, 'body': d};
+        
 
-        // Insert new draft
-        before(function(done){
+        // After new draft has been inserted...
+        it('should show a draft from this author', function(done){
+            
+            // Define new draft
+            var d = 'new draft';
+            var newdraft = {'title':d, 'body':d, draft:'on'};
+            
+            // Insert new draft
             agent1
             .post('localhost:8080/users/newpost')
             .type('form')
             .send(newdraft)
             .end(function(err, res){
                 expect(err).to.not.exist;
-
-                done();
             });
-        });
-
-        // After new draft has been inserted...
-        it('should show a draft from this author', function(done){
+            
+            
             agent1
             .get('localhost:8080/users/dashboard')
             .end(function(err, res){
                 expect(err).to.not.exist;
 
-                expect(res.text).to.not.contain('No drafts yet!');
+                expect(res.text).to.not.contain('No drafts saved!');
                 expect(res.text).to.contain(d);
 
                 done();

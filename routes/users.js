@@ -51,7 +51,8 @@ router.get('/dashboard', getMyPosts, function(req, res){
     res.render('dashboard', 
         {
             title: req.session.user.username + "'s Dashboard",
-            posts: req.posts
+            posts: req.posts,
+            drafts: req.drafts
         }
     );
 });

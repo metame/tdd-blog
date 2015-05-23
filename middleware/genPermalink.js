@@ -9,10 +9,16 @@ module.exports = function genPermalink(req, res, next){
         title += array[i].substr(0,1).toUpperCase();
         title += array[i].substr(1, length);
     }
+    
+    if(newPost.draft === 'on'){
+        newPost.draft = true;
+    } else {
+        newPost.draft = false;
+    }
 
-    req.body.permalink = user.username + '/' + title;
-    req.body.author = user.username;
-    req.body.date = new Date();
+    newPost.permalink = user.username + '/' + title;
+    newPost.author = user.username;
+    newPost.date = new Date();
 
     console.log(req.body);
 

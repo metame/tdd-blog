@@ -13,8 +13,7 @@ block content
                 each post in posts
                     li= post.title
     h2 Your Drafts
-    //- when drafts is defined add [0]
-    case drafts
+    case drafts[0]
         when undefined
             p No drafts saved!
         default

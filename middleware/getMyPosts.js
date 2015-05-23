@@ -4,16 +4,28 @@ var db = require('../lib/monk'),
 module.exports = function getMyPosts(req, res, next){
     var user = req.session.user;
     
-    // Find all posts by logged in user
+    // Find published posts by logged in user
     posts
-    .find({'author':user.username})
+    .find({'author':user.username, 'draft': false})
+    .error(function(err){ if(err) throw err; })
+    .success(function(docs){
+        if(!docs){
+        } else {
+            req.posts = docs;
+        }
+    });
+    
+    // Find draft posts by logged in user
+    posts
+    .find({'author':user.username, 'draft': true})
     .error(function(err){ if(err) throw err; })
     .success(function(docs){
         if(!docs){
             next();
         } else {
-            req.posts = docs;
+            req.drafts = docs;
             next();
         }
     });
+    
 }

@@ -1,8 +1,17 @@
 extends layout
 
 block content
-    h1 #{user.username}'s #{title}
-    form(action='./newpost' method='POST')
-        input(type="text" placeholder="Post title" name="title")
-        input(type="text" placeholder="Post body" name="body")
-        button(type="submit") Submit
+    .col-lg-4
+        h1 #{user.username}'s #{title}
+        form(action="./newpost" method="POST")
+            .form-group
+                input.form-control(type="text" required="true" placeholder="Post title" name="title")
+            .form-group
+                textarea.form-control(placeholder="Post body" name="body")
+            .checkbox
+                label
+                    input(type="checkbox" name="draft") 
+                    span Save as Draft
+            button.btn(type="submit") Submit
+script(type='text/javascript' src='/javascripts/jquery.js')
+script(type='text/javascript' src='/javascripts/newPost.js')
