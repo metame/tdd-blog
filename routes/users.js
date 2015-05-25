@@ -58,6 +58,17 @@ router.get('/dashboard', getMyPosts, getMyDrafts, function(req, res){
     );
 });
 
+// Logout route
+router.get('/logout', function(req, res){
+    var user = req.session.user;
+    req.session.destroy(function(err){
+        if(err) throw err;
+
+        res.send(user.username + ' successfully logged out!');
+    });
+});
+
+/* These routes will be moved to posts routes */
 
 // Create new blog post routes
 router.get('/newpost', function(req, res){
@@ -72,23 +83,46 @@ router.get('/newpost', function(req, res){
 
 router.post('/newpost', genPermalink, function(req, res){
     var newPost = req.body;
-    posts.insert(newPost)
-    .error(function(err){
-        if(err) throw err;
-    })
-    .success(function(post){
-        res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
-    });
+    
+    posts
+        .insert(newPost)
+        .error(function(err){
+            if(err) throw err;
+        })
+        .success(function(post){
+            res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
+        });
 });
 
-// Logout route
-router.get('/logout', function(req, res){
-    var user = req.session.user;
-    req.session.destroy(function(err){
-        if(err) throw err;
+router.get('/edit/:permalink', function(req, res){
 
-        res.send(user.username + ' successfully logged out!');
+    posts.findOne({'permalink': req.params.permalink})
+        .error(function(err){
+            if(err) throw err;
+        })
+        .success(function(post){
+            if(!post){
+                res.status(404).send("No post found!");
+            } else{
+                res.render('editPost', {title: 'Edit Post', post: post});
+            }
     });
+    
 });
+
+router.post('/edit/:permalink', genPermalink, function(req, res){
+    var editedPost = req.body;
+    
+    posts.findAndModify({'permalink': req.params.permalink}, editedPost)
+        .error(function(err){
+            if(err) throw err;
+        })
+        .success(function(post){
+            res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
+        });
+    
+});
+
+
 
 module.exports = router;

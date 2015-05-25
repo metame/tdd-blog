@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    .col-lg-4
+        h1=title
+        form(action="../edit/#{post.permalink}" method="POST")
+            .form-group
+                input.form-control(type="text" required="true" placeholder="Post title" name="title" value="#{post.title}")
+            .form-group
+                textarea.form-control(placeholder="Post body" required="true" name="body") #{post.body}
+            .checkbox
+                label
+                    input(type="checkbox" name="draft") 
+                    span Save as Draft
+            button.btn(type="submit") Submit
+script(type='text/javascript' src='/javascripts/jquery.js')
+script(type='text/javascript' src='/javascripts/newPost.js')

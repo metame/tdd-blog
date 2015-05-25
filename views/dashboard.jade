@@ -12,7 +12,7 @@ block content
         default
             ul.list-unstyled
                 each post in posts
-                    li= post.title
+                    li: a(href="../#{post.permalink}") #{post.title}
     h2 Your Drafts
     case drafts[0]
         when undefined
@@ -20,4 +20,4 @@ block content
         default
             ul.list-unstyled
                 each draft in drafts
-                    li= draft.title
+                    li: a(href="./edit/#{draft.permalink}") #{draft.title}

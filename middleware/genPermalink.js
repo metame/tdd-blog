@@ -1,7 +1,7 @@
 module.exports = function genPermalink(req, res, next){
-    var newPost = req.body,
+    var thisPost = req.body,
         user = req.session.user;
-        array = newPost.title.split(' '),
+        array = thisPost.title.split(' '),
         title = '';
 
     for(var i=0; i<array.length; i++){
@@ -10,15 +10,15 @@ module.exports = function genPermalink(req, res, next){
         title += array[i].substr(1, length);
     }
     
-    if(newPost.draft === 'on'){
-        newPost.draft = true;
+    if(thisPost.draft === 'on'){
+        thisPost.draft = true;
     } else {
-        newPost.draft = false;
+        thisPost.draft = false;
     }
 
-    newPost.permalink = user.username + '/' + title;
-    newPost.author = user.username;
-    newPost.date = new Date();
+    thisPost.permalink = title;
+    thisPost.author = user.username;
+    thisPost.date = new Date();
 
     console.log(req.body);
 
