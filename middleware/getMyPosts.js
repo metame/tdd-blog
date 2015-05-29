@@ -6,7 +6,7 @@ module.exports = function getMyPosts(req, res, next){
     
     // Find published posts by logged in user
     posts
-    .find({'author':user.username, 'draft': false})
+    .find({'author':user.username, 'draft': false}, {sort: {date: -1}})
     .error(function(err){ if(err) throw err; })
     .success(function(docs){
         if(!docs){

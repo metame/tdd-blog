@@ -5,6 +5,11 @@ html
         title= "TDD Blog - " + title
         link(href="/stylesheets/bootstrap.css" rel="stylesheet")
         meta(name="viewport" content="width=device-width, initial-scale=1")
+        block includes
     body
+        nav.navbar.navbar-default
+            .container-fluid
+                .navbar-header
+                    a.navbar-brand(href="../") tdd-blog
         .container-fluid
             block content

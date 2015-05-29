@@ -1,23 +1,39 @@
 extends layout
 
+block includes
+    link(href="/stylesheets/dashboard.css" rel="stylesheet")
+
 block content
-    h1 Hi #{user.username}, welcome to your dashboard!
-    ul.list-inline
-        li: a(href="./newPost") Write New Blog Post
-        li: a(href="./logout") Logout
-    h2 Your Posts
-    case posts[0]
-        when undefined
-            p No posts yet!
-        default
-            ul.list-unstyled
-                each post in posts
-                    li: a(href="../#{post.permalink}") #{post.title}
-    h2 Your Drafts
-    case drafts[0]
-        when undefined
-            p No drafts saved!
-        default
-            ul.list-unstyled
-                each draft in drafts
-                    li: a(href="./edit/#{draft.permalink}") #{draft.title}
+    .row
+        .col-md-6
+            h1 #{user.username}'s dashboard
+    .row
+        .col-md-4
+            h2 Your Posts
+            table.table.table-hover
+                case posts[0]
+                    when undefined
+                        tr
+                            td No posts yet!
+                    default
+                        each post in posts
+                            tr
+                                td: a(href="../#{post.permalink}") #{post.title}
+                                td= post.date.toDateString()
+                                td: a(href="./edit/#{post.permalink}") Edit
+            h2 Your Drafts
+            table.table.table-hover
+                case drafts[0]
+                    when undefined
+                        tr
+                            td No drafts saved!
+                    default
+                        each draft in drafts
+                            tr
+                                td: a(href="./edit/#{draft.permalink}") #{draft.title}
+                                td= post.date.toDateString()
+    nav.navbar.navbar-default.navbar-fixed-bottom
+        .container-fluid
+            .navbar-header
+                a.navbar-brand.navbar-left(href="./newpost") Write New Post
+                a.navbar-brand.navbar-right(href="./logout") Logout

@@ -6,7 +6,7 @@ module.exports = function getMyDrafts(req, res, next){
     
     // Find published posts by logged in user
     posts
-    .find({'author':user.username, 'draft': true})
+    .find({'author':user.username, 'draft': true}, {sort: {date: -1}})
     .error(function(err){ if(err) throw err; })
     .success(function(docs){
         if(!docs){
