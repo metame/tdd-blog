@@ -5,10 +5,10 @@ block includes
 
 block content
     .row
-        .col-md-6
+        .col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
             h1 #{user.username}'s dashboard
     .row
-        .col-md-4
+        .col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
             h2 Your Posts
             table.table.table-hover
                 case posts[0]
@@ -30,10 +30,11 @@ block content
                     default
                         each draft in drafts
                             tr
-                                td: a(href="./edit/#{draft.permalink}") #{draft.title}
-                                td= post.date.toDateString()
+                                td: a(href="../preview/#{draft.permalink}") #{draft.title}
+                                td= draft.date.toDateString()
+                                td: a(href="./edit/#{draft.permalink}") Edit
     nav.navbar.navbar-default.navbar-fixed-bottom
         .container-fluid
             .navbar-header
-                a.navbar-brand.navbar-left(href="./newpost") Write New Post
-                a.navbar-brand.navbar-right(href="./logout") Logout
+                a.navbar-brand.dash-nav(href="./newpost") Write New Post
+                a.navbar-brand.dash-nav.pull-right(href="./logout") Logout
