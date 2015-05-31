@@ -15,7 +15,7 @@ describe('User Dashboard', function(){
     });
 
     // Insert user in db before running test
-    // it('should register user', function(done){
+    // it('should insert user in db', function(done){
     before(function(done){
         users.insert(user)
         .success(function(doc){

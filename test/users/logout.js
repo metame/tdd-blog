@@ -6,6 +6,11 @@ describe('user logout', function(){
     var u = 'outuser',
         user = {'username': u, 'password': u, 'email': u + "@test.com"};
 
+    // Make sure db is clean to avoid errors
+    before(function(){
+        users.remove(user);
+    });
+    
     // seed db with test user
     before(function(done){
         users.insert(user).success(function(doc){

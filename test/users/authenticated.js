@@ -9,6 +9,12 @@ describe('Authentication', function(){
         user = {'username': u, 'password': u, 'email': u + "@test.com"},
         u1 = 'authtest1',
         user1 = {'username': u1, 'password': u1, 'email': u1 + "@test.com"};
+     
+    // Make sure db is clean to avoid errors
+    before(function(){
+        users.remove(user);
+        users.remove(user1)
+    }); 
         
     // Insert test users in db before running tests
     before(function(done){

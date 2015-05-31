@@ -18,6 +18,11 @@ describe('Registration', function(){
     
     var newUser = {'username': 'test3', 'password': 'test3', 'email': 'test3@test.com'};
     
+    // Make sure db is clean to avoid errors
+    before(function(){
+        users.remove(newUser);
+    });
+    
     it('should accept valid registration information', function(done){
         request
         .post('localhost:8080/users/register')

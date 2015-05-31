@@ -8,7 +8,7 @@
     "url": "https://github.com/metame/tdd-blog.git"
   },
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test && mocha test/users"
   },
   "devDependencies": {
     "mocha": "*",

@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 tdd-blog
+    case posts[0]
+        when undefined
+            p No posts yet!
+        default
+            each post in posts
+                h3: a(href="/#{post.permalink") #{post.title}
+                p written by #{post.author} on #{post.date}
+                p #{post.body}
