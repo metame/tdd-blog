@@ -1,12 +1,19 @@
 extends layout
 
 block content
-    h1 tdd-blog
-    case posts[0]
-        when undefined
-            p No posts yet!
-        default
-            each post in posts
-                h3: a(href="/#{post.permalink") #{post.title}
-                p written by #{post.author} on #{post.date}
-                p #{post.body}
+    .row
+        .col-xs-offset-1
+            case posts[0]
+                when undefined
+                    p No posts yet!
+                default
+                    each post in posts
+                        - var date = post.date.toDateString();
+                        h3 
+                            a.postTitle(href="/#{post.permalink}") #{post.title}
+                            br
+                            small
+                                | written by 
+                                a.author(href="/users/#{post.author}") #{post.author} 
+                                | on #{date}
+                        p.lead #{post.body}

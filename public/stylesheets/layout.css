@@ -1,3 +1,36 @@
-.navbar {
-    margin-bottom: 0;
+body {
+    background-color: rgb(197, 227, 219);
+}
+
+#header {
+    background-color: rgb(250, 217, 223);
+    box-shadow: 1px 1px 5px #FDF1F3;
+}
+
+.page-header {
+    border-bottom: none;
+}
+
+#title {
+    border-bottom: 1px solid;
+}
+
+.postTitle, a.author {
+    color: #081E18;
+}
+
+a.postTitle:hover, a.author:hover {
+    color: #1F3932;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    h1 {
+    line-height: .8;
+    }
+
+    .page-header {
+        margin: 20px 0 10px;
+    }
+
 }
