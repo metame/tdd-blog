@@ -1,7 +1,6 @@
 var router = require('express').Router(),
-    db = require('../lib/monk'),
-    posts = db.get('posts'),
-    getPosts = require('../middleware/getPosts.js');
+    getPosts = require('../middleware/getPosts.js'),
+    getPost = require('../middleware/getPost.js');
     
 router.get('/', getPosts, function(req, res){
     res.render('index',
@@ -10,6 +9,14 @@ router.get('/', getPosts, function(req, res){
             posts: req.posts
         }
     );
+});
+
+router.get('/posts/:permalink', getPost, getPosts, function(req, res){
+    res.render('blogPost',{
+        title: req.post.title,
+        post: req.post,
+        posts: req.posts
+    });
 });
 
 module.exports = router;

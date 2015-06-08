@@ -1,10 +1,10 @@
 body {
-    background-color: rgb(197, 227, 219);
+    background-color: #eee;
 }
 
 #header {
-    background-color: rgb(250, 217, 223);
-    box-shadow: 1px 1px 5px #FDF1F3;
+    background-color: rgb(29, 27, 149);
+    box-shadow: 1px 1px 5px rgba(29, 27, 149, .6);
 }
 
 .page-header {
@@ -13,6 +13,20 @@ body {
 
 #title {
     border-bottom: 1px solid;
+    color: #eee;
+}
+
+#title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#title small {
+    color: #999;
+}
+
+h2 {
+    margin-bottom: 0;
 }
 
 .postTitle, a.author {
@@ -24,6 +38,13 @@ a.postTitle:hover, a.author:hover {
     text-decoration: none;
 }
 
+.sidebar {
+    font-size: 17px;
+    margin-top: 10px;
+    line-height: 1.8;
+}
+
+
 @media (max-width: 768px) {
     h1 {
     line-height: .8;
@@ -33,4 +54,10 @@ a.postTitle:hover, a.author:hover {
         margin: 20px 0 10px;
     }
 
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 19px;
+    }
 }

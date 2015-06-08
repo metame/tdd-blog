@@ -1,0 +1,12 @@
+.col-sm-offset-1.col-sm-3.hidden-xs
+    .sidebar.col-sm-12
+        h3 Popular Posts
+        - var popPosts = ["Awesome Clickbait","Outlandish Claim","Opposite of Accepted Truth"];
+        ul.list-unstyled
+            each post in popPosts
+                li: a(href="#") #{post}
+    .sidebar.col-sm-12
+        h3 Recent Posts
+        ul.list-unstyled
+            each post in posts
+                li: a(href="/posts/#{post.permalink}") #{post.title}

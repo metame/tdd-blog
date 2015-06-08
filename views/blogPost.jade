@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .row
+        .col-xs-offset-1.col-sm-7
+            - var date = post.date.toDateString();
+            h2 
+                a.postTitle(href="/#{post.permalink}") #{post.title}
+            p.metaInfo
+                |      written by 
+                a.author(href="/users/#{post.author}") #{post.author} 
+                | on #{date}
+            p.lead 
+                | #{post.body}
+                a.postLink(href="/#{post.permalink}" title="See Full Post")
+        include sidebar
