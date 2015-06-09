@@ -2,7 +2,7 @@ var request = require('superagent'),
     expect = require('expect.js'),
     posts = require('../lib/monk').get('posts');
 
-describe('Blog Home Page', function(){
+describe('Blog Post', function(){
     var latestPost;
     before(function(done){
         posts
@@ -15,7 +15,7 @@ describe('Blog Home Page', function(){
             
     it('should exist', function(done){
         request
-        .get('localhost:8080/' + latestPost.permalink)
+        .get('localhost:8080/posts/' + latestPost.permalink)
         .end(function(err, res){
             expect(err).to.not.exist;
            
