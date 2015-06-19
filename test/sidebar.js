@@ -68,6 +68,33 @@ describe('Sidebar', function(){
     });
     
     describe.skip('Tag Cloud', function(){
-        
+        var allPosts;
+        before(function(done){
+            posts
+                .find({draft: false})
+                .success(function(docs){
+                    allPosts = docs;
+                    done();
+            });
+        });
+
+        it('should show tags', function(done){
+            request
+            .get('localhost:8080/')
+            .end(function(err, res){
+                expect(err).to.not.exist;
+                
+                expect(res).to.exist;
+                expect(res.status).to.equal(200);
+                expect(res.text).to.contain("tag cloud");
+                if(allPosts[0] !== undefined){
+                    allPosts.forEach(function(post, index, posts){
+                        expect(res.text).to.contain(post.tags[0]);  // app logic to be updated
+                    });
+                }
+
+                done();
+            });
+        });
     });
 });
