@@ -18,7 +18,7 @@ block content
                     default
                         each post in posts
                             tr
-                                td: a(href="../#{post.permalink}") #{post.title}
+                                td: a(href="/posts/#{post.permalink}") #{post.title}
                                 td= post.date.toDateString()
                                 td: a(href="./edit/#{post.permalink}") Edit
             h2 Your Drafts
@@ -30,10 +30,10 @@ block content
                     default
                         each draft in drafts
                             tr
-                                td: a(href="../preview/#{draft.permalink}") #{draft.title}
+                                td: a(href="/posts/preview/#{draft.permalink}") #{draft.title}
                                 td= draft.date.toDateString()
                                 td: a(href="./edit/#{draft.permalink}") Edit
-    nav.navbar.navbar-default.navbar-fixed-bottom
+    nav.navbar.navbar-default.navbar-fixed-bottom.visible-xs-block
         .container-fluid
             .navbar-header
                 a.navbar-brand.dash-nav(href="./newpost") Write New Post

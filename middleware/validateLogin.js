@@ -5,10 +5,10 @@ module.exports = function validateLogin(req, res, next){
     users.findOne({'username':req.body.username})
     .success(function(user){
         if(!user){
-            res.send('Username does not exist!');
+            res.render('login',{errMsg: 'Username does not exist!', title: 'Login'});
         } else {
             if(user.password !== req.body.password){
-                res.send('Password incorrect!');
+                res.render('login',{errMsg: 'Password incorrect!', title: 'Login'});
             } else {
                 req.session.user = user;
                 console.log(req.session.user.username + " successfully validated!");

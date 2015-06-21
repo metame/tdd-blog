@@ -25,6 +25,13 @@ body {
     color: #999;
 }
 
+.bg-warning {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align: center;
+}
+
 h2 {
     margin-bottom: 0;
 }

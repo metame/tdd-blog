@@ -1,8 +1,9 @@
 extends usersLayout
 
 block content
-    col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
+    .col-md-6.col-md-offset-3.col-lg-4.col-lg-offset-4
         h1= title
+        p.lead.text-warning #{errMsg}
         form(action="/users/login" method="POST")
             .form-group
                 input.form-control(type="text" placeholder="username" required="true" name="username")

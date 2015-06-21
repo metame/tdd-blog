@@ -72,9 +72,7 @@ describe('new blog post', function(){
                 
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
-                expect(res.text).to.contain(u);
                 expect(res.text).to.contain(newPost.title);
-                expect(res.text).to.contain(newPost.body);
                 
                 done();
             });
