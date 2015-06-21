@@ -36,7 +36,7 @@ router.post('/register', validateRegistration, function(req, res){
         })
         .success(function(doc){
             console.log(doc.username + " registered!");
-            res.send('You registered successfully with username ' + doc.username + ' and email ' + doc.email);
+            res.render('userMsg', {message: 'You registered successfully with username ' + doc.username + ' and email ' + doc.email});
         });
          
 });
@@ -71,11 +71,9 @@ router.get('/logout', ensureAuth, function(req, res){
     req.session.destroy(function(err){
         if(err) throw err;
 
-        res.send(user.username + ' successfully logged out!');
+        res.render('userMsg',{message: user.username + ' successfully logged out!'});
     });
 });
-
-/* These routes will be moved to posts routes */
 
 // Create new blog post routes
 router.get('/newpost', ensureAuth, function(req, res){
@@ -97,7 +95,7 @@ router.post('/newpost', ensureAuth, genPermalink, cleanTags, addTagsToDb, functi
             if(err) throw err;
         })
         .success(function(post){
-            res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
+            res.redirect('/dashboard');
         });
 });
 
@@ -109,9 +107,9 @@ router.get('/edit/:permalink', ensureAuth, function(req, res){
         })
         .success(function(post){
             if(!post){
-                res.status(404).send("No post found!");
+                res.status(404).render('userMsg', {message: "No post found!"});
             } else if(post.author !== req.user.username){
-                res.status(403).send("Only the author can edit a post!");
+                res.status(403).render('userMsg', {message: "Only the author can edit a post!"});
             } else {
                 res.render('editPost', {title: 'Edit Post', post: post});
             }
@@ -127,10 +125,11 @@ router.post('/edit/:permalink', ensureAuth, genPermalink, cleanTags, addTagsToDb
             if(err) throw err;
         })
         .success(function(post){
-            res.send(post.author + ', new post added!\n <h1>' + post.title + '</h1>\n<p>' + post.date + '</p>\n<p>' + post.body + '</p>');
-        });
+            res.redirect('/dashboard');
+    });
     
 });
+
 
 
 

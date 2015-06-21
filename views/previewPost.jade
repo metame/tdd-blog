@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    p.lead.bg-warning Preview Mode
+    .row
+        .col-xs-offset-1.col-sm-7
+            - var date = post.date.toDateString();
+            h2= post.title
+            p.metaInfo
+                |      written by 
+                a.author(href="/users/#{post.author}") #{post.author} 
+                | on #{date}
+            p.lead 
+                | #{post.body}
+                a.postLink(href="/#{post.permalink}" title="See Full Post")
+            if post.tags
+                p.tags tags:
+                    each tag, i in post.tags
+                        if i === 0
+                            a.tagLink(href="/tags/#{tag}") #{tag}
+                        else
+                            | , 
+                            a.tagLink(href="/tags/#{tag}") #{tag}
+        include sidebar

@@ -56,6 +56,7 @@ describe('edit blog post', function(){
                 
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
+                expect(res.text).to.contain(newPost.title);
                 
                 done();
             });
