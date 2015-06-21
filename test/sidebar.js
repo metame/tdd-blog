@@ -1,6 +1,7 @@
 var request = require('superagent'),
     expect = require('expect.js'),
-    posts = require('../lib/monk').get('posts');
+    posts = require('../lib/monk').get('posts'),
+    tags = require('../lib/monk').get('tags');
 
 describe('Sidebar', function(){
     describe('Recent Posts', function(){
@@ -67,13 +68,13 @@ describe('Sidebar', function(){
         
     });
     
-    describe.skip('Tag Cloud', function(){
-        var allPosts;
+    describe('Tag Cloud', function(){
+        var tagsDocs;
         before(function(done){
-            posts
-                .find({draft: false})
+            tags
+                .find({},{'sort':{'freq':-1},'limit':10})
                 .success(function(docs){
-                    allPosts = docs;
+                    tagsDocs = docs;
                     done();
             });
         });
@@ -86,10 +87,10 @@ describe('Sidebar', function(){
                 
                 expect(res).to.exist;
                 expect(res.status).to.equal(200);
-                expect(res.text).to.contain("tag cloud");
-                if(allPosts[0] !== undefined){
-                    allPosts.forEach(function(post, index, posts){
-                        expect(res.text).to.contain(post.tags[0]);  // app logic to be updated
+                expect(res.text).to.contain("tags");
+                if(tagsDocs[0] !== undefined){
+                    tagsDocs.forEach(function(tag){
+                        expect(res.text).to.contain(tag.tag); 
                     });
                 }
 

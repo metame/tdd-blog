@@ -7,6 +7,9 @@ var db = require('../lib/monk'),
 // a simple solution could be a ratio of tagcount to font-size with a maximum
 // but this would not scale well over time as that percentage would have to be lower and lower
 // a better solution may be to assign a static font-size based on rank
-module.exports = function rankTags(req, res, next){
-    tags.
+module.exports = function getTags(req, res, next){
+    tags.find({},'-posts').success(function(docs){
+        req.tags = docs;
+        next();
+    });
 }

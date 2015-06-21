@@ -20,8 +20,6 @@ module.exports = function genPermalink(req, res, next){
     thisPost.author = user.username;
     thisPost.date = new Date();
 
-    console.log(req.body);
-
     next();
 
 }

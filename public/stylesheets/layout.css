@@ -44,6 +44,10 @@ a.postTitle:hover, a.author:hover {
     line-height: 1.8;
 }
 
+.tagLi {
+    float: left;
+    margin-right: 10px;
+}
 
 @media (max-width: 768px) {
     h1 {

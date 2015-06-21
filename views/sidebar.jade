@@ -9,3 +9,15 @@
         ul.list-unstyled
             each post in posts
                 li: a(href="/posts/#{post.permalink}") #{post.title}
+    .sidebar.col-sm-8
+        h3 tags
+        ul.list-unstyled
+            each tag in tags
+                -var fontSize;
+                if tag.freq / 10 < 1
+                    -fontSize = "1em";
+                else if tag.freq / 10 > 2
+                    -fontSize = "2em";
+                else 
+                    -fontSize = (tag.freq / 10).toString() + "em";
+                li.tagLi(style="font-size:#{fontSize}"): a(href="/tags/#{tag.tag}") #{tag.tag}

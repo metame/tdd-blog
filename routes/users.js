@@ -9,7 +9,9 @@ var express = require('express'),
     ensureAuth = require('../middleware/ensureAuth'),
     genPermalink = require('../middleware/genPermalink'),
     getMyPosts = require('../middleware/getMyPosts'),
-    getMyDrafts = require('../middleware/getMyDrafts');
+    getMyDrafts = require('../middleware/getMyDrafts'),
+    cleanTags = require('../middleware/cleanTags'),
+    addTagsToDb = require('../middleware/addTagsToDb');
 
 router.use(userSession);
 
@@ -86,7 +88,7 @@ router.get('/newpost', ensureAuth, function(req, res){
     }
 });
 
-router.post('/newpost', ensureAuth, genPermalink, function(req, res){
+router.post('/newpost', ensureAuth, genPermalink, cleanTags, addTagsToDb, function(req, res){
     var newPost = req.body;
     
     posts
@@ -117,7 +119,7 @@ router.get('/edit/:permalink', ensureAuth, function(req, res){
     
 });
 
-router.post('/edit/:permalink', ensureAuth, genPermalink, function(req, res){
+router.post('/edit/:permalink', ensureAuth, genPermalink, cleanTags, addTagsToDb, function(req, res){
     var editedPost = req.body;
     
     posts.findAndModify({'permalink': req.params.permalink}, editedPost)

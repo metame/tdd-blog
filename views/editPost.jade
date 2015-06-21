@@ -8,6 +8,8 @@ block content
                 input.form-control(type="text" required="true" placeholder="Post title" name="title" value="#{post.title}")
             .form-group
                 textarea.form-control(required="true" placeholder="Post body" name="body" rows="10") #{post.body}
+            .form-group
+                input.form-control(type="text" placeholder="tags (comma separated)" name="tags" value="#{post.tags}")
             .checkbox
                 label
                     if post.draft
@@ -17,5 +19,3 @@ block content
                     span Save as Draft
             a.btn.btn-danger.btn-lg(href="/users/dashboard") Cancel
             button.btn.btn-primary.btn-lg.pull-right(type="submit" style="margin-right:5px") Submit
-script(type='text/javascript' src='/javascripts/jquery.js')
-script(type='text/javascript' src='/javascripts/newPost.js')
